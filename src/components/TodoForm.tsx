@@ -1,29 +1,43 @@
-import React, { useRef, useEffect, use } from 'react'
+import { useRef, useEffect} from 'react'
 import TailButton from './TailButton'
 
-export default function TodoForm({addTodo}) {
-    const txtRef = useRef();
-    const selRef = useRef();
+import type { MouseEvent } from 'react'
+import type { completedT } from '../types/Todo'
 
 
-   const handelok = (e) => {
+interface TodoFormProps {
+    addTodo : (text : string | undefined , completed : completedT) => void
+}
+
+export default function TodoForm({addTodo} : TodoFormProps) {
+    const txtRef = useRef<HTMLInputElement>(null);
+    const selRef = useRef<HTMLSelectElement>(null);
+    
+
+
+   const handelok = (e :MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    if (!txtRef.current || !selRef.current) return ;
 
     if (txtRef.current.value == "") {
         alert("할일 내용을 입력하세요!");
         txtRef.current.focus();
         return;
     } 
-    addTodo(txtRef.current.value,selRef.current.value);
+    addTodo(txtRef.current.value,selRef.current.value as completedT);
    }
 
    const handelcancel = () => {
-    txtRef.current.value = "";
-    txtRef.current.focus();
+    if (txtRef.current) {
+        txtRef.current.value = "";
+        txtRef.current?.focus();
+    }
+    if (selRef.current) selRef.current.value = "X"
+
    }
 
    useEffect(()=>{
-    txtRef.current.focus();
+    txtRef.current?.focus();
 
    },[])
 

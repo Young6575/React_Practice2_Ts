@@ -3,10 +3,28 @@ import TailSelect from './TailSelect'
 import { useRef,useState } from 'react'
 import SubwayBox from './SubwayBox'
 
+export interface Tdataitem {
+  // [key : string] : string  뭐가 들어올지 모를 때 이렇게 설정해두고 확인
+  "city": string,
+  "pm10": string,
+  "co2": string,
+  "co": string,
+  "no2": string,
+  "no": string,
+  "nox": string,
+  "o3": string,
+  "pm25": string,
+  "fad": string,
+  "controlnumber": string,
+  "areaIndex": string,
+  "office": string,
+  "site": string
+}
+
 export default function Subway() {
   const selv = useRef<HTMLSelectElement>(null);
-  const [tdata,setTdata] = useState([]);
-  const [timeData,setTimeData] = useState([]);
+  const [tdata,setTdata] = useState<Tdataitem[]>([]);
+  const [timeData,setTimeData] = useState<Tdataitem[]>([]);
 
   const getDataFetch = async() => {
 
@@ -31,15 +49,17 @@ export default function Subway() {
   }
 
   useEffect(()=>{
-    let tm = [];
+    let tm : string[] = [];
     tm = tdata.map(item => item.controlnumber);
     tm.sort();
     console.log("시간 정렬", tm);
 
-    let tmData = [];
+    let tmData : Tdataitem[] = [];
     tmData = tm.map(item => tdata.filter(titem => titem.controlnumber == item)[0])
 
     setTimeData(tmData);
+    console.log(tdata)
+  
   }, [tdata]);
 
   return (
@@ -50,7 +70,7 @@ export default function Subway() {
     </div>
     <div className='w-full'>
         {
-            timeData.map((item, idx)=>(
+            timeData.map((item : Tdataitem, idx : number)=>(
                 <SubwayBox key={item['controlnumber']}
                             data={item}
                             idx={idx}/>

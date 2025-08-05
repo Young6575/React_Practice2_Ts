@@ -1,14 +1,16 @@
-import React from 'react'
 import TodoForm from './TodoForm'
 import TodoItem from './TodoItem'
 
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+
+import  type{ Todo, completedT } from '../types/Todo'
+
 export default function TodoList() {
     const url = "http://localhost:3005/todos";
-    const [tdata,setTdata] = useState([]);
+    const [tdata,setTdata] = useState<Todo[]>([]);
 
-    const addTodo = async (text, completed) => {
+    const addTodo = async (text : string, completed : completedT) => {
         console.log("add", text) 
 
         const data = {
@@ -24,8 +26,8 @@ export default function TodoList() {
         setTdata(data);
     }
 
-    const toggoleTodo = async(id,completed) => {
-        const done = completed ? 'O' : 'X';
+    const toggoleTodo = async(id : string ,completed : boolean) => {
+        const done : completedT = completed ? 'O' : 'X';
         await axios.patch(`${url}/${id}`,{"completed" : done});
 
         const check = await axios.get(`${url}/${id}`)
@@ -33,7 +35,7 @@ export default function TodoList() {
         getData();
     }
 
-    const deleteTodo = async(id) => {
+    const deleteTodo = async(id : string) => {
         await axios.delete(`${url}/${id}`);
         getData();
     }

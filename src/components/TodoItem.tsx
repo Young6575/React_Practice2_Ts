@@ -1,9 +1,14 @@
-import React, { useEffect, useRef } from 'react'
 import TailButton from './TailButton'
-import { useState } from 'react'
 
+import type { Todo } from '../types/Todo'
 
-export default function TodoItem({item, onDelete, onPatch}) {
+interface TodoItemProps {
+  item : Todo, 
+  onPatch : (id : string ,completed : boolean) => void,
+  onDelete : (id : string) => void 
+}
+
+export default function TodoItem({item, onDelete, onPatch} : TodoItemProps) {
 
 
   return (

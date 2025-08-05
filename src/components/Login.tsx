@@ -12,7 +12,7 @@ export default function Login() {
   const [login,setLogin] = useAtom(isLogin);
   const navigate = useNavigate();
 
-  const account : accountType = {email : "www@gmailcom", pwd : 1111};
+  const account : accountType = {email : "www@gmail.com", pwd : 1111};
 
   const emailRef = useRef<HTMLInputElement>(null);
   const pwdRef = useRef<HTMLInputElement>(null);
